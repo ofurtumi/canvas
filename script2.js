@@ -94,6 +94,11 @@ function animate() {
     }
   }
 
+  if (enemy.hp <= 0) {
+	  enemy.pos.x = 250
+	  enemy.pos.y = 700
+	  enemy.hp = 500
+  }
   enemy.newPos(getVec(enemy.pos, player.pos));
   enemy.draw();
   player.draw();
@@ -104,7 +109,7 @@ function animate() {
 // * setup function startar evenet listenerum og ehv data types
 window.onload = async function () {
   player = new Turret(turretImg, 64, canvas);
-  enemy = new Enemy(player, { x: 450, y: 450 }, 50, canvas);
+  enemy = new Enemy(player, { x: 700, y: 700 }, 500, canvas);
   player.draw();
   enemy.draw();
 
