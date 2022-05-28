@@ -83,7 +83,7 @@ function animate() {
       if (b.OOB) OOBs.push(i);
       else if (isCollision(b, b.w, enemy, enemy.w)) {
         OOBs.push(i);
-        enemy.hp -= b.damage;
+        enemy.hit(b)
       }
     });
 
