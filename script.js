@@ -1,4 +1,5 @@
 import { Vector } from "./lib/vector.js";
+import {setNav} from "./lib/utils.js"
 import Turret from "./Turett.js";
 import Bullet from "./Bullet.js";
 import Enemy from "./Enemy.js";
@@ -147,6 +148,11 @@ function animate() {
 
 // * setup function startar evenet listenerum og ehv data types
 window.onload = async function () {
+  // ! smá leyni :Z
+  if (window.location.hostname === "sjomli.is") {
+    setNav();
+  }
+
   player = new Turret(turretImg, 64, canvas);
   enemies[0] = new Enemy(player, { x: 100, y: 100 }, 100, canvas);
   player.draw();
