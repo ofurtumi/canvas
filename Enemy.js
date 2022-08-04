@@ -12,21 +12,24 @@ class Enemy {
   }
 
   draw() {
-    this.c.fillStyle = this.damaged ? "#f00" : "#000";
-    this.damaged ? (this.damaged = false) : null;
-    this.c.fillRect(this.pos.x, this.pos.y, this.w, this.w);
+    this.c.strokeStyle = "#000";
+    this.c.fillStyle = "#000"
+    this.c.strokeRect(this.pos.x, this.pos.y, this.w, this.w);
+    if (this.damaged) {
+      this.c.fillStyle = "#f00";
+      this.c.fillRect(this.pos.x, this.pos.y, this.w, this.w);
+      this.damaged = false;
+    }
+
     this.c.fillText(
       this.hp + "/" + this.health,
       this.pos.x - 4,
       this.pos.y + 50
     );
 
-    this.c.fillStyle = "rgba(255,0,0,"+0.1*this.crit-- +")"
-    this.c.fillText(
-        "CRITICAL",
-        this.pos.x - 5,
-        this.pos.y - 10
-      );
+    this.c.fillStyle = "rgba(255,0,0," + 0.1 * this.crit-- + ")";
+    this.c.fillText("CRITICAL", this.pos.x - 5, this.pos.y - 10);
+    this.c.stroke();
   }
 
   newPos(vector) {

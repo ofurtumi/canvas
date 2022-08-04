@@ -1,3 +1,40 @@
-<canvas width="500" height="500" style="border: 5px dotted red;"></canvas>
-<span id="bulletCount"></span>
-<script src="script2.js" type="module"></script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo leikur</title>
+    <style>
+        .prison {
+            font-family: monospace;
+            display: flex;
+            justify-content: center;
+        }
+
+        .garden {
+            margin: 10px auto;
+            max-width: 500px;
+            display: flex;
+            justify-content: space-between;
+        }
+    </style>
+</head>
+<body>
+    <div class="prison">
+        <canvas width="500" height="500" style="border: 5px dotted red;"></canvas>
+    </div>
+    <div class="garden">
+        <span>
+            <span id="kal">k.á.l. (kúlur á lífi):</span>
+            <span id="bulletCount"></span>
+        </span>
+        <span>
+            <button id="kill">kill young</button>
+            <span id="young"></span>
+            <button id="spawn">birth young</button>
+        </span>
+    </div>
+    <script src="script.js" type="module"></script>
+</body>
+</html>
