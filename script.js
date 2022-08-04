@@ -149,7 +149,7 @@ function animate() {
 // * setup function startar evenet listenerum og ehv data types
 window.onload = async function () {
   // ! smá leyni :Z
-  if (window.location.hostname === "sjomli.is") {
+  if (window.location.hostname === "www.sjomli.is") {
     setNav();
   }
 
