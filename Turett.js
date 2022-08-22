@@ -8,9 +8,18 @@ class Turret {
       x: (canvas.width - this.w) * 0.5,
       y: (canvas.width - this.w) * 0.5,
     };
+    this.health = 250;
+    this.hp = this.health;
     // this.pos = { x: 100, y: 200 };
     this.middle = { x: this.pos.x + 32, y: this.pos.y + 32 };
     this.c = canvas.getContext("2d");
+  }
+
+  damage(hit, crit) {
+    let multiplier = crit ? 2 : 1;
+    this.hp -= hit * multiplier;
+    if (this.hp < 0) return true;
+    return false;
   }
 
   draw() {

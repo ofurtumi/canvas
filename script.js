@@ -36,9 +36,9 @@ function getDeg(pX, pY, mX, mY) {
   return delta;
 }
 
-function getVec(refPos, targetPos) {
-  const x = targetPos.x - refPos.x;
-  const y = targetPos.y - refPos.y;
+function getVec(refPos, targetPos, offset = 0) {
+  const x = (targetPos.x - offset) - refPos.x;
+  const y = (targetPos.y - offset) - refPos.y;
   const magnitude = Math.sqrt(x * x + y * y);
 
   const dir = { x: x / magnitude, y: y / magnitude };
@@ -82,6 +82,8 @@ function animate() {
   const yMov = (keys.up ? -5 : 0) + (keys.down ? 5 : 0);
   player.move(xMov, yMov);
 
+  // * 
+
   // * ef það eru kúlur á skjánum, uppfærir teljarann og eyðir þeim sem fara útaf
   if (bullets) {
     bulletCount.textContent = String(bullets.length);
@@ -116,12 +118,12 @@ function animate() {
 
   player.draw();
   enemies.forEach((enemy) => {
-    enemy.newPos(getVec(enemy.pos, enemy.target.pos));
+    enemy.newPos(getVec(enemy.pos, enemy.target.middle, enemy.target.w*0.25));
     enemy.draw();
   });
   // ctx.stroke()
 
-  // ? sér um að fæða nýja enemies ef svo á við
+  // ? sér um að fæða nýja enemies ef svo á viðaw
   if (spawn > 0) {
     for (let i = 0; i < spawn; i++) {
       let size = Math.floor(Math.random()*24+16);
@@ -145,12 +147,13 @@ function animate() {
   window.requestAnimationFrame(animate);
 }
 
+// ! fjarlægir navigation ef ekki á sjomli.is
+if (window.location.hostname !== "www.sjomli.is") {
+  document.querySelector('header').remove();
+}
+
 // * setup function startar evenet listenerum og ehv data types
 window.onload = async function () {
-  // ! smá leyni :Z
-  if (window.location.hostname !== "www.sjomli.is") {
-    document.querySelector('header').remove();
-  }
 
   player = new Turret(turretImg, 64, canvas);
   enemies[0] = new Enemy(player, { x: 100, y: 100 }, 100, canvas);
@@ -159,23 +162,13 @@ window.onload = async function () {
     enemy.draw();
   });
 
-  // todo: setja þetta í json eða ehv sheesh þetta er ógeð
-  PMO.set(0, { PMX: 25, PMY: 0 });
-  PMO.set(1, { PMX: 20, PMY: 10 });
-  PMO.set(2, { PMX: 15, PMY: 15 });
-  PMO.set(3, { PMX: 10, PMY: 20 });
-  PMO.set(4, { PMX: 0, PMY: 25 });
-  PMO.set(5, { PMX: -10, PMY: 20 });
-  PMO.set(6, { PMX: -15, PMY: 15 });
-  PMO.set(7, { PMX: -20, PMY: 10 });
-  PMO.set(8, { PMX: -25, PMY: 0 });
-  PMO.set(9, { PMX: -20, PMY: -10 });
-  PMO.set(10, { PMX: -15, PMY: -15 });
-  PMO.set(11, { PMX: -10, PMY: -20 });
-  PMO.set(12, { PMX: 0, PMY: -25 });
-  PMO.set(13, { PMX: 10, PMY: -20 });
-  PMO.set(14, { PMX: 15, PMY: -15 });
-  PMO.set(15, { PMX: 20, PMY: -10 });
+  // todo: setja þetta í json eða ehv sheesh þetta er ógeð (komið)
+  // ! miklu meira clean rn
+  let PMORaw = await fetch(new URL("PMO.json", window.location.href));
+  let PMOData = await PMORaw.json();
+  PMOData.forEach((data, key) => {
+    PMO.set(key, data)
+  });
 
   // * sér um snúning á sprite útfrá músinni
   canvas.addEventListener("mousemove", (e) => {
